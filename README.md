@@ -83,3 +83,23 @@ void loop() {
   // Maintain precise timing frequency
   delayMicroseconds(stepDelayMicros);
 }
+SAFETY.md
+# ⚠️ Core Safety Guidelines & High-Risk Mitigation Protocol
+### Author: Christopher De La Rioux | Project: Solid-State Energy Harvester
+
+Operating, constructing, or modifying this hardware involves high-density magnetic fields, vacuum containment, and high-voltage power generation. Strict adherence to these protocols is mandatory.
+
+## 🧲 1. Kinetic and Kinetic-Impact Hazards (Samarium-Cobalt Arrays)
+Samarium-Cobalt (SmCo) permanent magnets pose a severe risk of physical crushing, pinching, and laceration due to extreme, involuntary attraction/repulsion forces.
+* **Impact Isolation:** Always maintain a minimum clear radius of 1 meter between loose magnets and any ferromagnetic tools, benches, or clothing items. 
+* **Eye Protection:** SmCo is highly brittle. If two magnets collide violently, they will shatter into razor-sharp, high-velocity ceramic shrapnel. Impact-rated safety glasses are required at all times.
+* **Assembly Tools:** Only use non-magnetic brass, copper, or heavy-duty Delrin plastic tools when pushing or adjusting components within the Halbach matrix.
+
+## ⚡ 2. High-Voltage / High-Frequency Electrical Hazards
+The integrated power stack steps up low-voltage currents to an operational **380V DC Bus** before inverting to grid-level **240V AC**.
+* **Lethal Potential:** Any voltage exceeding 50V DC or 25V AC can deliver a fatal shock under standard atmospheric conditions. Treat all internal bus lines as active and live.
+* **Capacitor Discharge Protocol:** After turning the system off, the high-voltage Silicon Carbide (SiC) stage capacitors retain energy. Wait a minimum of 10 minutes and measure the bus voltage with a calibrated multimeter before touching any circuit trace.
+* **Insulated Boundary:** Ensure all high-voltage traces maintain proper creepage and clearance distances matching IPC-2221B industrial standards.
+
+## 🔬 3. Nanomaterial Handling
+The processing of wafer-scale graphene sheets or carbon lattices should be restricted to cleanroom or enclosed laboratory hoods. Do not crush, sand, or vaporize carbon matrices outside of a controlled, vacuum-isolated enclosure to prevent the inhalation of micro-particulates.
