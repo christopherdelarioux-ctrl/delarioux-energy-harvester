@@ -103,3 +103,12 @@ The integrated power stack steps up low-voltage currents to an operational **380
 
 ## 🔬 3. Nanomaterial Handling
 The processing of wafer-scale graphene sheets or carbon lattices should be restricted to cleanroom or enclosed laboratory hoods. Do not crush, sand, or vaporize carbon matrices outside of a controlled, vacuum-isolated enclosure to prevent the inhalation of micro-particulates.
+
+04_Power_Electronics_Inverter/BOM.md
+
+Component ID	Quantity	Description	Manufacturer	Manufacturer Part Number	Package Type	Purpose / Placement
+U1	1	650V 30A Full-Bridge GaN Power Element	Efficient Power Conversion (EPC)	EPC2104	Die-level BGA / QFN	Monolithic Active Rectifier Bridge
+U2	1	High-Speed Gate Driver (Low-Side/High-Side)	Texas Instruments	LMG1210RVRR	WQFN-19	Drives GaN Gates at Megahertz Speeds
+Q1, Q2	2	1200V 40A Silicon Carbide (SiC) MOSFET	Wolfspeed	C3M0075120K	TO-247-4	High-Voltage DC-to-DC Step-Up Stage
+C1, C2	2	450V 100µF High-Ripple DC Link Capacitor	Panasonic	EEV-EE2W101M	Surface Mount	Filters High-Voltage 380V DC Bus
+MCU1	1	32-bit ARM Cortex-M4 Microcontroller
