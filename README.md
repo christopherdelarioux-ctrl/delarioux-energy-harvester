@@ -83,6 +83,37 @@ void loop() {
   // Maintain precise timing frequency
   delayMicroseconds(stepDelayMicros);
 }
+
+# 🛠️ GaN Gate Driver Technical Troubleshooting Guide
+**Author:** Christopher De La Rioux  
+**Target Hardware:** LMG1210 Gate Driver & EPC2104 GaN Bridge Array
+
+Operating Gallium Nitride (GaN) HEMTs at multi-megahertz frequencies requires highly sensitive timing parameters. Because GaN switches lack a traditional body diode and have incredibly low gate-source thresholds, any signal noise or parasitic inductance can cause circuit failure. Use this diagnostic matrix on your benchtop.
+
+---
+
+## ⚡ Symptom 1: Excessive Thermal Overheating on the EPC2104 Bridge
+* **Root Cause A: "Shoot-Through" Currents.** Both the High-Side and Low-Side GaN switches in a single half-bridge column are turning on at the same microsecond, creating a direct short-circuit between the 380V DC Bus and Ground.
+* **Correction:** Adjust the physical resistor values on the LMG1210 `R_DEAD` pins. Increase the dead-time delay to a minimum of **10 to 15 nanoseconds** to guarantee that one switch is fully closed before its counterpart opens.
+* **Root Cause B: Gate-Drive Overvoltage.** Driving the GaN gates beyond their maximum 5.5V limit causes lattice degradation and high leakage current.
+* **Correction:** Verify that your low-dropout (LDO) linear regulator supplying the LMG1210 VDD is locked strictly at **5.0V DC**. Do not let it drift toward 6.0V.
+
+---
+
+## 📉 Symptom 2: Jagged or Distortion Waves on the 240V AC Output
+* **Root Cause A: Parasitic Inductance Loom.** Long wire traces between the microchip controller and the gate driver are skewing the high-speed Pulse Width Modulation (PWM) signal.
+* **Correction:** Re-layout the PCB Gerber files. The path between the MCU1 pin, the LMG1210 driver, and the EPC2104 gate must be **under 5mm total length** using wide, thick copper pours.
+* **Root Cause B: LC Low-Pass Filter Saturation.** The inductor core inside the output filter is saturating under high electrical loads, turning your pure sine wave into a clipped square wave.
+* **Correction:** Replace the standard ferrite-core inductor with a **Kool Mµ / Sendust powder-core inductor** that maintains linear permeability even under maximum current spikes.
+
+---
+
+## 🔬 Diagnostic Benchtop Validation Sequence
+Before connecting your generator module to a live 380V DC supply:
+1. **Isolated Logic Test:** Power only the 5V MCU and Gate Driver logic. Hook up your 200MHz Oscilloscope to the GaN gate pads. Verify you see clean, square 5V logic pulses with crisp vertical rising edges.
+2. **Low-Voltage Sweep:** Introduce a safe 12V DC input to the power bus. Confirm the bridge switches cleanly and outputs a tiny, scaled 12V AC wave. Only when this wave is perfectly clean should you step the bus up to its full operating voltage.
+
+
 SAFETY.md
 # ⚠️ Core Safety Guidelines & High-Risk Mitigation Protocol
 ### Author: Christopher De La Rioux | Project: Solid-State Energy Harvester
